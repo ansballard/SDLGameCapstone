@@ -30,13 +30,20 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add directory="D:/MinGW/include/SDL2" />
+			<Add directory="$(CODEBLOCKS)/../../MinGW/include/SDL2" />
 		</Compiler>
 		<Linker>
-			<Add option="-lmingw32 -lSDL2main -lSDL2" />
-			<Add directory="D:/MinGW/lib" />
+			<Add option="-lmingw32 -lSDL2main -lSDL2  -lSDL2_image" />
+			<Add directory="$(CODEBLOCKS)/../../MinGW/lib" />
 		</Linker>
+		<Unit filename="gameObject.cpp" />
+		<Unit filename="gameObject.h" />
+		<Unit filename="gameObjectList.cpp" />
+		<Unit filename="gameObjectList.h" />
+		<Unit filename="map.h" />
 		<Unit filename="menu.cpp" />
+		<Unit filename="player.cpp" />
+		<Unit filename="player.h" />
 		<Extensions>
 			<DoxyBlocks>
 				<comment_style block="0" line="0" />

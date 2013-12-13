@@ -989,24 +989,25 @@
 	"begin_code.h"
 	"close_code.h"
 
-1385869061 source:d:\games\sdl\codeblocksproject\menu.cpp
+1386813996 source:d:\games\sdl\codeblocksproject\menu.cpp
 	<iostream>
 	<string>
 	"player.h"
 	"gameObjectList.h"
+	"npc.h"
 
-1384799130 source:d:\games\sdl\codeblocksproject\player.cpp
+1386443754 source:d:\games\sdl\codeblocksproject\player.cpp
 	"player.h"
 
-1384799132 d:\games\sdl\codeblocksproject\player.h
+1386443754 d:\games\sdl\codeblocksproject\player.h
 	<SDL.h>
 	<SDL_image.h>
 	"gameObject.h"
 
-1385869102 source:d:\games\sdl\codeblocksproject\gameobject.cpp
+1386812576 source:d:\games\sdl\codeblocksproject\gameobject.cpp
 	"gameObject.h"
 
-1385867156 d:\games\sdl\codeblocksproject\gameobject.h
+1386812672 d:\games\sdl\codeblocksproject\gameobject.h
 	<SDL.h>
 	<SDL_image.h>
 	<iostream>
@@ -1091,9 +1092,17 @@
 1384798970 h:\codeblocksproject\gameobjectlist.h
 	"gameObject.h"
 
-1385860415 d:\games\sdl\codeblocksproject\gameobjectlist.h
+1386736737 d:\games\sdl\codeblocksproject\gameobjectlist.h
 	"gameObject.h"
 
-1385869020 source:d:\games\sdl\codeblocksproject\gameobjectlist.cpp
+1386443754 source:d:\games\sdl\codeblocksproject\gameobjectlist.cpp
 	"gameObjectList.h"
+
+1386810211 source:d:\games\sdl\codeblocksproject\npc.cpp
+	"npc.h"
+
+1386806462 d:\games\sdl\codeblocksproject\npc.h
+	<SDL.h>
+	<SDL_image.h>
+	"gameObject.h"
 

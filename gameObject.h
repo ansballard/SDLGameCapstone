@@ -5,12 +5,22 @@
 #include <SDL_image.h>
 #include <iostream>
 
+// COLLISION STATIC CONSTS
 static const int COLL_NONE = 0;
 static const int COLL_UP = 1;
 static const int COLL_RIGHT = 2;
 static const int COLL_DOWN = 3;
 static const int COLL_LEFT = 4;
 static const int COLL_IN = 5;
+
+// SPRITE ANIMATION STATIC CONSTS
+
+static const int XSTILL_RIGHT = 0;
+static const int XMOVING_RIGHT = 1;
+static const int XSTILL_LEFT = 2;
+static const int XMOVING_LEFT = 3;
+static const int LEFT_BOUND = 0;
+static const int RIGHT_BOUND = 640;
 
 class GameObject
 {
@@ -32,6 +42,8 @@ class GameObject
         bool collDown;
         bool collLeft;
         bool collRight;
+        int startTicks;
+        int currentTicks;
 
     public:
         // CONSTRUCTOR
@@ -56,6 +68,7 @@ class GameObject
         double getVSpeed() {return vSpeed;}
         SDL_Texture* getImage() {return image;} // get pointer to original image object
         SDL_Rect** getSpriteSheet(); // return copy of sprite sheet (not pointer to original)
+        SDL_Rect* getSprite(); // return sprite according to in-class clips and ticks
         SDL_Rect* getSprite(int x, int y) {return &spriteSheet[x][y];} // return specific sprite from sheet given x and y
         bool isMovingHorizontal() {return (horizontalMovement != 0);} // true if horizontal movement isn't 0
         bool isMovingVertical() {return (verticalMovement != 0);}
@@ -67,7 +80,9 @@ class GameObject
         void setSprite(SDL_Rect **sSheet, int xNumSpritesParam, int yNumSpritesParam); // set sprite sheet (not a pointer to parameter sheet)
         void setSprite(SDL_Texture *image, int xNumSpritesParam, int yNumSpritesParam, int spriteWidthParam, int spriteHeightParam); // take image, fill array with sprites via measurements
         bool moveSpriteHorizontal();
+        bool moveSpriteHorizontal(int ticks);
         bool moveSpriteVertical();
+        bool moveSprite(int ticks) {moveSpriteHorizontal(ticks);moveSpriteVertical();}
         void clearCollision() {collUp = false; collDown = false; collLeft = false; collRight = false;}
         void clearCollDown() {collDown = false;}
         void setXPos(int xPosParam) {xPos = xPosParam;}

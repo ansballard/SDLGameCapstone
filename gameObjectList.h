@@ -3,7 +3,7 @@
 class GameObjectList
 {
 private:
-    static const int MAX_SIZE = 64;
+    static const int MAX_SIZE = 256;
     GameObject **surfaces;
     int listSize;
     SDL_Texture *image;

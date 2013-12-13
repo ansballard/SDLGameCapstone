@@ -42,6 +42,8 @@
 		<Unit filename="gameObjectList.h" />
 		<Unit filename="map.h" />
 		<Unit filename="menu.cpp" />
+		<Unit filename="npc.cpp" />
+		<Unit filename="npc.h" />
 		<Unit filename="player.cpp" />
 		<Unit filename="player.h" />
 		<Extensions>

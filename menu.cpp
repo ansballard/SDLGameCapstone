@@ -2,17 +2,13 @@
 #include <string>
 #include "player.h"
 #include "gameObjectList.h"
+#include "npc.h"
 
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 
-// CONSTANTS FOR SPRITE PICKING
-///////////////////////////////
-const int STILL_RIGHT = 0;
-const int MOVING_RIGHT = 1;
-const int STILL_LEFT = 2;
-const int MOVING_LEFT = 3;
-const int MAX_SURFACES = 64;
+// CONSTANT FOR LEVEL GAP
+/////////////////////////
 const int LEVEL_GAP = 96;
 
 // ERROR CHECKING/LOGGING
@@ -104,7 +100,7 @@ int main(int argc, char **argv)
     // LOAD SPRITE
     ///////////////////////
     SDL_Texture *p1Image = loadTexture("sprites/knight/knightLeftRight.png", renderer);
-    SDL_Texture *backgroundImage = loadTexture("images/background.jpg", renderer);
+    SDL_Texture *backgroundImage = loadTexture("images/backgroundNew.jpg", renderer);
     SDL_Texture *boxImage = loadTexture("images/block.jpg", renderer);
     SDL_Texture *goalImage = loadTexture("images/goal.png", renderer);
 
@@ -117,14 +113,10 @@ int main(int argc, char **argv)
     /////////////////////////////////////////////
     SDL_Event e;
     bool quit = false;
-    int tickOriginal = SDL_GetTicks();
-    int tickMod250 = 0;
-    int useClip = 2;
     bool aDown = false;
     bool dDown = false;
     bool spaceDown = false;
-    int surfacesSize = 0;
-    int tempX = 0;
+    int tempX = 0; // for testing tab-delte of objects
 
     // SPRITE SURFACE ARRAY
     ///////////////////////
@@ -147,7 +139,6 @@ int main(int argc, char **argv)
     ////////////
     while(!quit)
     {
-        tickMod250 = (tickOriginal - SDL_GetTicks()) % 250; // keep track of every 250th tick for animations
         p1->objectCollisionCheck(surfaceList.getList(), surfaceList.getSize());
 
         // EVENT CATCH LOOP
@@ -211,58 +202,25 @@ int main(int argc, char **argv)
                 {
                     bool temp = surfaceList.removeObjects(0,0,tempX,640);
                     tempX+=24;
-                    //std::cout << tempX << ", " << surfaceList.getSize() << std::endl;
                 }
             }
         }
 
         // UPDATE ANIMATION AND MOVEMENT
         ////////////////////////////////
-        if(p1->isMovingHorizontal()) // if p1 is moving
-        {
-            if(p1->getHorizontalMovement() < 0) // if p1 is moving left
-            {
-                if(tickMod250 < 126) // animation handling
-                    useClip = STILL_LEFT;
-                else
-                    useClip = MOVING_LEFT;
-                if(p1->getXPos() > 0)
-                    p1->moveSpriteHorizontal(); // move p1 left 3
-            }
-            else if(p1->getHorizontalMovement() > 0) // if p1 is moving right
-            {
-                if(tickMod250 < 126) // animation handling
-                    useClip = STILL_RIGHT;
-                else
-                    useClip = MOVING_RIGHT;
-                if(p1->getXPos() < SCREEN_WIDTH - p1->getSpriteWidth())
-                    p1->moveSpriteHorizontal(); // move p1 right 3
-            }
-        }
-        else // if p1 is not moving
-        {
-            if(p1->getFacingRight()) // if facing right, use stopped facing right clip
-                useClip = STILL_RIGHT;
-            else // else use the stopped facing left clip
-                useClip = STILL_LEFT;
-        }
-        // GRAVITY
-        //////////
-        p1->moveSpriteVertical();
+        p1->moveSprite(SDL_GetTicks());
+
 
         p1->clearCollision(); // allows for multiple object collision checking
 
         // IMAGE RENDERING
         //////////////////
-        int useClipA = useClip%p1->getXNumSprites();
-        int useClipB = useClip/p1->getXNumSprites();
-
         SDL_RenderClear(renderer);
         renderTexture(backgroundImage, renderer, 0, 0);
         for(int i = 0; i < surfaceList.getSize(); i++)
             renderTexture(surfaceList.getImage(), renderer, surfaceList.getObjectX(i), surfaceList.getObjectY(i));
         renderTexture(goalImage, renderer, goal->getXPos(), goal->getYPos());
-        renderTexture(p1->getImage(), renderer, p1->getXPos(), p1->getYPos(), p1->getSprite(useClipA, useClipB));
+        renderTexture(p1->getImage(), renderer, p1->getXPos(), p1->getYPos(), p1->getSprite());
         SDL_RenderPresent(renderer);
 
         if(p1->objectCollisionCheck(goal) != 0)

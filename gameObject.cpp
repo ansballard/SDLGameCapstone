@@ -63,6 +63,49 @@ GameObject::~GameObject()
     image = NULL;
 }
 
+// GETTERS
+//////////
+SDL_Rect* GameObject::getSprite()
+{
+    //int useClipA = useClip%p1->getXNumSprites();
+    //int useClipB = useClip/p1->getXNumSprites();
+    //return &spriteSheet[x][y];
+
+    if(horizontalMovement == 0)
+    {
+        if(facingRight == false)
+        {
+            return &spriteSheet[XSTILL_LEFT%xNumSprites][XSTILL_LEFT/xNumSprites];
+        }
+        else
+        {
+            return &spriteSheet[XSTILL_RIGHT%xNumSprites][XSTILL_RIGHT/xNumSprites];
+        }
+    }
+    else if((currentTicks - startTicks) % 250 < 126)
+    {
+        if(horizontalMovement > 0)
+        {
+            return &spriteSheet[XMOVING_RIGHT%xNumSprites][XMOVING_RIGHT/xNumSprites];
+        }
+        else
+        {
+            return &spriteSheet[XMOVING_LEFT%xNumSprites][XMOVING_LEFT/xNumSprites];
+        }
+    }
+    else
+    {
+        if(horizontalMovement > 0)
+        {
+            return &spriteSheet[XSTILL_RIGHT%xNumSprites][XSTILL_RIGHT/xNumSprites];
+        }
+        else
+        {
+            return &spriteSheet[XSTILL_LEFT%xNumSprites][XSTILL_LEFT/xNumSprites];
+        }
+    }
+}
+
 // COMPLICATED SPRITE GETTER
 ////////////////////////////
 SDL_Rect** GameObject::getSpriteSheet()
@@ -197,6 +240,25 @@ bool GameObject::moveSpriteHorizontal() // true for movement, false for none
     }
     else
         return false;
+}
+
+bool GameObject::moveSpriteHorizontal(int ticks) // true for movement, false for none
+{
+    currentTicks = ticks;
+    if((horizontalMovement < 0 && !collLeft && xPos > LEFT_BOUND) || (horizontalMovement > 0 && !collRight && xPos + spriteWidth < RIGHT_BOUND))
+    {
+        xPos += horizontalMovement * hSpeed;
+        return true;
+    }
+    else if(horizontalMovement == 0)
+    {
+        startTicks = currentTicks;
+        return false;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 bool GameObject::moveSpriteVertical() // true for movement, false for none

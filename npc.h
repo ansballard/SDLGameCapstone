@@ -20,7 +20,10 @@ public:
     NPC(SDL_Texture *imageParam, int xPosParam, int yPosParam, int widthParam, int heightParam) : GameObject(imageParam, xPosParam, yPosParam, widthParam, heightParam) {}
 
     // MOVEMENT
-    void setRange(int rangeRight, int rangeLeft);
+    void setRange(int rangeLeft, int rangeRight);
+    void setHorizontalMovement();
+    bool moveSpriteHorizontal(int ticks);
+    bool moveSprite(int ticks) {moveSpriteHorizontal(ticks);moveSpriteVertical();}
     int getRangeRight();
     int getRangeLeft();
     int getInitialPosX();
